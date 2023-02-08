@@ -33,7 +33,7 @@ class Body(models.Model):
 
 class Sample_info(models.Model):
     file_id1 = models.CharField(max_length=50)
-    person_id = models.CharField(max_length=50)
+    # person_id = models.CharField(max_length=50)
 
     format_gt = models.CharField(max_length=5)
     format_gq = models.CharField(max_length=5)

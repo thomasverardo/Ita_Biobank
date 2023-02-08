@@ -68,15 +68,26 @@ def insert_data(request):
 
 
             for person in record.calls:
-                excluded = {k: person[k] for k in set(list(person.keys())) - set(['GT', 'GQ'])}
+                # excluded = {k: person[k] for k in set(list(person.sample)) - set(['GT', 'GQ'])}
+                
+                for key, value in person.data.items():
+                    if key == 'GT':
+                        gt = value
+                    if key == 'GQ':
+                        gq = value
+                    else:
+                        other = value
+
                 new_sample_info = Sample_info(
-                    file_id = file_id_new,
-                    person_id = person.sample,
-                    format_gt = person.data['GT'],
-                    format_gq = person.data['GQ'],
-                    all_other = excluded,
+                    file_id1 = file_id_new,
+                    # person_id = person.sample,
+                    format_gt = gt,
+                    format_gq = gq,
+                    all_other = other,
                     File_description = new_file_description
                 )
+
+                new_sample_info.save()
 
 
             # print(new_sequence.chrom)

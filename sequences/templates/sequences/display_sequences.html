@@ -1,0 +1,106 @@
+<!-- display_sequences.html -->
+{% if user.is_authenticated %}
+    <p> user name: {{ user.username }} </p>
+{% else %}
+    Anonymous
+{% endif %}
+
+<!-- 
+{% for sequence in sequences %}
+    <p>{{ sequence.id1 }}: {{ sequence.chrom }}, {{ sequence.pos }}, {{ sequence.id }}, 
+        {{ sequence.ref }}, {{ sequence.alt }}, {{ sequence.qual }}, {{ sequence.filter }}, 
+        {{ sequence.info }}
+    </p>
+{% endfor %} -->
+
+<!-- submit_sequence.html -->
+<!-- <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form> -->
+
+
+<table>
+  <thead>
+    <tr>
+      <th>File_id</th>
+      <th>person_id</th>
+      <th>GT</th>
+      <th>GQ </th>
+      <th>Other</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for sample in sample_info %}
+    <tr>
+      <td>{{ sample.file_id1 }}</td>
+      <td>{{ sample.person_id }}</td>
+      <td>{{ sample.format_gt }}</td>
+      <td>{{ sample.format_gq }}</td>
+      <td>{{ sample.all_other }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- file description  -->
+<table>
+  <thead>
+    <tr>
+      <th>File_id</th>
+      <th>FileFormat</th>
+      <th>FileDate</th>
+      <th>Source</th>
+      <th>Reference</th>
+      <th>Contig</th>
+      <th>Phasing</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for des in file_description %}
+    <tr>
+      <td>{{ des.file_id }}</td>
+      <td>{{ des.file_format }}</td>
+      <td>{{ des.file_data }}</td>
+      <td>{{ des.source }}</td>
+      <td>{{ des.reference }}</td>
+      <td>{{ des.contig }}</td>
+      <td>{{ des.phasing }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+<!-- body -->
+<table>
+    <thead>
+      <tr>
+        <th>CHROM</th>
+        <th>POS</th>
+        <th>ID</th>
+        <th>REF</th>
+        <th>ALT</th>
+        <th>QUAL</th>
+        <th>FILTER</th>
+        <th>INFO</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for sequence in sequences %}
+      <tr>
+        <td>{{ sequence.chrom }}</td>
+        <td>{{ sequence.pos }}</td>
+        <td>{{ sequence.id1 }}</td>
+        <td>{{ sequence.ref }}</td>
+        <td>{{ sequence.alt }}</td>
+        <td>{{ sequence.qual }}</td>
+        <td>{{ sequence.filter }}</td>
+        <td>{{ sequence.info }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  

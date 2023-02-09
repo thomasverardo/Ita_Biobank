@@ -14,35 +14,18 @@
 {% endfor %} -->
 
 <!-- submit_sequence.html -->
-<form method="post">
+<!-- <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit">
+</form> -->
+
+<form action="{% url 'insert_vcf_file' %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" name="vcf_file">
+  <button type="submit">Insert VCF</button>
 </form>
 
-
-<table>
-  <thead>
-    <tr>
-      <th>File_id</th>
-      <th>person_id</th>
-      <th>GT</th>
-      <th>GQ </th>
-      <th>Other</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for sample in sample_info %}
-    <tr>
-      <td>{{ sample.file_id1 }}</td>
-      <td>{{ sample.person_id }}</td>
-      <td>{{ sample.format_gt }}</td>
-      <td>{{ sample.format_gq }}</td>
-      <td>{{ sample.all_other }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
 
 <!-- file description  -->
 <table>
@@ -104,3 +87,29 @@
     </tbody>
   </table>
   
+
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>File_id</th>
+      <th>person_id</th>
+      <th>GT</th>
+      <th>GQ </th>
+      <th>Other</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for sample in sample_info %}
+    <tr>
+      <td>{{ sample.file_id1 }}</td>
+      <td>{{ sample.person_id }}</td>
+      <td>{{ sample.format_gt }}</td>
+      <td>{{ sample.format_gq }}</td>
+      <td>{{ sample.all_other }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

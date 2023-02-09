@@ -1,4 +1,5 @@
 from django.db import models
+import django_tables2 as tables
 
 
 class File_description(models.Model):
@@ -29,6 +30,7 @@ class Body(models.Model):
 
     class Meta:
         app_label = 'sequences'
+        attrs = {"class": "mytable"}
 
 
 class Sample_info(models.Model):
@@ -42,3 +44,4 @@ class Sample_info(models.Model):
     File_description = models.ForeignKey(File_description, on_delete=models.RESTRICT)
 
 
+table = Body()

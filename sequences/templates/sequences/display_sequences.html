@@ -1,4 +1,18 @@
 <!-- display_sequences.html -->
+<!DOCTYPE html>  
+<html lang="en">  
+<head>
+  <meta charset="UTF-8">  
+  <title>Ita biobank</title>  
+  <!-- <link href="../../../node_modules/bootstrap/dist/css/bootstrap.min.css" >   -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+
+
+
+
+
 {% if user.is_authenticated %}
     <p> user name: {{ user.username }} </p>
 {% else %}
@@ -20,96 +34,130 @@
     <input type="submit" value="Submit">
 </form> -->
 
-<form action="{% url 'insert_vcf_file' %}" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <input type="file" name="vcf_file">
-  <button type="submit">Insert VCF</button>
-</form>
+<div class="table-responsive">
 
 
-<!-- file description  -->
-<table>
-  <thead>
-    <tr>
-      <th>File_id</th>
-      <th>FileFormat</th>
-      <th>FileDate</th>
-      <th>Source</th>
-      <th>Reference</th>
-      <th>Contig</th>
-      <th>Phasing</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for des in file_description %}
-    <tr>
-      <td>{{ des.file_id }}</td>
-      <td>{{ des.file_format }}</td>
-      <td>{{ des.file_data }}</td>
-      <td>{{ des.source }}</td>
-      <td>{{ des.reference }}</td>
-      <td>{{ des.contig }}</td>
-      <td>{{ des.phasing }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+
+  <form action="{% url 'insert_vcf_file' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="vcf_file">
+    <button type="submit">Insert VCF</button>
+  </form>
 
 
-<!-- body -->
-<table>
+  <!-- Patients -->
+
+  <table class="table table-striped table-hover">
     <thead>
       <tr>
-        <th>CHROM</th>
-        <th>POS</th>
-        <th>ID</th>
-        <th>REF</th>
-        <th>ALT</th>
-        <th>QUAL</th>
-        <th>FILTER</th>
-        <th>INFO</th>
-        
+        <th>Patient_id</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Other</th>
       </tr>
     </thead>
     <tbody>
-      {% for sequence in sequences %}
+      {% for pat in patients %}
       <tr>
-        <td>{{ sequence.chrom }}</td>
-        <td>{{ sequence.pos }}</td>
-        <td>{{ sequence.id1 }}</td>
-        <td>{{ sequence.ref }}</td>
-        <td>{{ sequence.alt }}</td>
-        <td>{{ sequence.qual }}</td>
-        <td>{{ sequence.filter }}</td>
-        <td>{{ sequence.info }}</td>
+        <td>{{ pat.person_id }}</td>
+        <td>{{ pat.age }}</td>
+        <td>{{ pat.gender }}</td>
+        <td>{{ pat.format_other }}</td>
+
       </tr>
       {% endfor %}
     </tbody>
   </table>
-  
+
+  <!-- file description  -->
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>File_id</th>
+        <th>FileFormat</th>
+        <th>FileDate</th>
+        <th>Source</th>
+        <th>Reference</th>
+        <th>Contig</th>
+        <th>Phasing</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for des in file_description %}
+      <tr>
+        <td>{{ des.file_id }}</td>
+        <td>{{ des.file_format }}</td>
+        <td>{{ des.file_data }}</td>
+        <td>{{ des.source }}</td>
+        <td>{{ des.reference }}</td>
+        <td>{{ des.contig }}</td>
+        <td>{{ des.phasing }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+  <!-- body -->
+  <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>CHROM</th>
+          <th>POS</th>
+          <th>ID</th>
+          <th>REF</th>
+          <th>ALT</th>
+          <th>QUAL</th>
+          <th>FILTER</th>
+          <th>INFO</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for sequence in sequences %}
+        <tr>
+          <td>{{ sequence.chrom }}</td>
+          <td>{{ sequence.pos }}</td>
+          <td>{{ sequence.id1 }}</td>
+          <td>{{ sequence.ref }}</td>
+          <td>{{ sequence.alt }}</td>
+          <td>{{ sequence.qual }}</td>
+          <td>{{ sequence.filter }}</td>
+          <td>{{ sequence.info }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
 
 
 
 
-<table>
-  <thead>
-    <tr>
-      <th>File_id</th>
-      <th>person_id</th>
-      <th>GT</th>
-      <th>GQ </th>
-      <th>Other</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for sample in sample_info %}
-    <tr>
-      <td>{{ sample.file_id1 }}</td>
-      <td>{{ sample.person_id }}</td>
-      <td>{{ sample.format_gt }}</td>
-      <td>{{ sample.format_gq }}</td>
-      <td>{{ sample.all_other }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>File_id</th>
+        <th>person_id</th>
+        <th>GT</th>
+        <th>GQ </th>
+        <th>Other</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sample in sample_info %}
+      <tr>
+        <td>{{ sample.file_id1 }}</td>
+        <td>{{ sample.person_id }}</td>
+        <td>{{ sample.format_gt }}</td>
+        <td>{{ sample.format_gq }}</td>
+        <td>{{ sample.all_other }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+</div>
+
+
+</body>

@@ -1,26 +1,52 @@
 import vcfpy
 from django.shortcuts import render, redirect
-from .models import Body, File_description, Sample_info
-from .forms import VCFSequenceForm, VCFInsertForm
+from .models import body, file_description, sample_info, patient
+from .forms import VCFInsertForm, InsertPatientForm
 from datetime import datetime
 
 def display_sequences(request):
     # insert_data(request)
-    sequences = Body.objects.all()
-    file_description = File_description.objects.all()
-    sample_info = Sample_info.objects.all()
-    return render(request, 'sequences/display_sequences.html', {'sequences': sequences, 'file_description': file_description, 'sample_info': sample_info})
+    sequences = body.objects.all()
+    file_description_ = file_description.objects.all()
+    sample_info_ = sample_info.objects.all()
+    patients = patient.objects.all()
+    return render(request, 'sequences/display_sequences.html', {'sequences': sequences, 
+                                                                'file_description': file_description_, 
+                                                                'sample_info': sample_info_,
+                                                                'patients': patients
+                                                                
+                                                                })
+    # return render(request, 'sequences/table_sequences.html', {'table': Sample_table})
 
-def submit_sequence(request):
+# def submit_sequence(request):
+#     if request.method == 'POST':
+#         form = VCFSequenceForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             print("SUBMIT")
+#             return redirect('display_sequences')
+#     else:
+#         form = VCFSequenceForm()
+#     return render(request, 'sequences/submit_sequence.html', {'form': form})
+
+
+def add_patient(request):
     if request.method == 'POST':
-        form = VCFSequenceForm(request.POST)
+        form = InsertPatientForm(request.POST)
         if form.is_valid():
-            form.save()
-            print("SUBMIT")
-            return redirect('display_sequences')
+            person_id = form.cleaned_data['person_id']
+            age = form.cleaned_data['age']
+            gender = form.cleaned_data['gender']
+            format_other = form.cleaned_data['format_other']
+
+            # Insert data into the person table
+            person = patient(person_id=person_id, age=age, gender=gender, format_other=format_other)
+            person.save()
+            return redirect('/sequences/')
     else:
-        form = VCFSequenceForm()
-    return render(request, 'sequences/submit_sequence.html', {'form': form})
+        form = InsertPatientForm()
+    return render(request, 'sequences/add_patient.html', {'form': form})
+
 
 
 def insert_vcf_file(request):
@@ -45,7 +71,7 @@ def insert_data_from_file(request, vfc_file):
 
     header_lines = reader.header.lines
 
-    new_file_description = File_description(
+    new_file_description = file_description(
         file_id = file_id_new,
         file_format = header_lines[0].value,
         file_data = header_lines[1].value,
@@ -60,9 +86,9 @@ def insert_data_from_file(request, vfc_file):
     #     print(line.value)
 
     for record in reader:
-        new_sequence = Body(
+        new_sequence = body(
             file_id1 = file_id_new,
-            File_description = new_file_description,
+            file_description = new_file_description,
             chrom = record.CHROM, 
             pos = record.POS, 
             id1 = record.ID, 
@@ -90,13 +116,13 @@ def insert_data_from_file(request, vfc_file):
                 else:
                     other = value
 
-            new_sample_info = Sample_info(
+            new_sample_info = sample_info(
                 file_id1 = file_id_new,
                 # person_id = person.sample,
                 format_gt = gt,
                 format_gq = gq,
                 all_other = other,
-                File_description = new_file_description
+                file_description = new_file_description
             )
 
             new_sample_info.save()
@@ -116,7 +142,7 @@ def insert_data(request):
 
         header_lines = reader.header.lines
 
-        new_file_description = File_description(
+        new_file_description = file_description(
             file_id = file_id_new,
             file_format = header_lines[0].value,
             file_data = header_lines[1].value,
@@ -131,7 +157,7 @@ def insert_data(request):
         #     print(line.value)
 
         for record in reader:
-            new_sequence = Body(
+            new_sequence = body(
                 file_id1 = file_id_new,
                 File_description = new_file_description,
                 chrom = record.CHROM, 
@@ -161,7 +187,7 @@ def insert_data(request):
                     else:
                         other = value
 
-                new_sample_info = Sample_info(
+                new_sample_info = sample_info(
                     file_id1 = file_id_new,
                     # person_id = person.sample,
                     format_gt = gt,

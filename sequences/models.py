@@ -1,8 +1,7 @@
 from django.db import models
-import django_tables2 as tables
 
 
-class File_description(models.Model):
+class file_description(models.Model):
     file_id = models.CharField(max_length=100, primary_key=True)
     file_format = models.CharField(max_length=50)
     file_data = models.CharField(max_length=20)
@@ -13,7 +12,7 @@ class File_description(models.Model):
 
 
 
-class Body(models.Model):
+class body(models.Model):
     file_id1 = models.CharField(max_length=50)
     
     chrom = models.CharField(max_length=4)
@@ -26,14 +25,13 @@ class Body(models.Model):
     filter = models.CharField(max_length=100)
     info = models.CharField(max_length=255)
 
-    File_description = models.ForeignKey(File_description, on_delete=models.RESTRICT)
+    file_description = models.ForeignKey(file_description, on_delete=models.RESTRICT)
 
     class Meta:
         app_label = 'sequences'
-        attrs = {"class": "mytable"}
 
 
-class Sample_info(models.Model):
+class sample_info(models.Model):
     file_id1 = models.CharField(max_length=50)
     # person_id = models.CharField(max_length=50)
 
@@ -41,7 +39,18 @@ class Sample_info(models.Model):
     format_gq = models.CharField(max_length=5)
     all_other = models.CharField(max_length=100)
 
-    File_description = models.ForeignKey(File_description, on_delete=models.RESTRICT)
+    file_description = models.ForeignKey(file_description, on_delete=models.RESTRICT)
 
 
-table = Body()
+GENDER_CHOICES = (
+    ('M', 'Male'),
+    ('F', 'Female'),
+    ('O', 'Other')
+)
+
+class patient(models.Model):
+    person_id = models.CharField(max_length=50, primary_key=True)
+    age = models.IntegerField()
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    format_other = models.CharField(max_length=100)
+

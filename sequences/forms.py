@@ -1,12 +1,20 @@
 from django import forms
-from .models import Body
+from .models import body, patient
 
 class VCFSequenceForm(forms.ModelForm):
     class Meta:
-        model = Body
+        model = body
         fields = ('chrom', 'pos', 'id1', 'ref', 'alt', 'qual', 'filter', 'info')
 
 
 
 class VCFInsertForm(forms.Form):
     vcf_file = forms.FileField(label='Select VCF file')
+
+
+
+
+class InsertPatientForm(forms.ModelForm):
+    class Meta:
+        model = patient
+        fields = ('person_id', 'age', 'gender', 'format_other')

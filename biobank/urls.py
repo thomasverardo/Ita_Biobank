@@ -16,10 +16,10 @@ Including another URLconf
 
 
 from django.urls import path
-from sequences.views import display_sequences, submit_sequence, insert_vcf_file
+from sequences.views import display_sequences, insert_vcf_file, add_patient
 
 urlpatterns = [
     path('sequences/', display_sequences, name='display_sequences'),
-    path('submit_sequence/', submit_sequence, name='submit_sequence'),
     path('insert_vcf/', insert_vcf_file, name='insert_vcf_file'),
+    path('add/', add_patient, name='add_person'),
 ]

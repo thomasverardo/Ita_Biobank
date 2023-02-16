@@ -1,1 +1,1 @@
-ssh -i /home/thomas/Scaricati/ODMC.pem ubuntu@3.68.219.61
+ssh -i /home/thomas/Scaricati/ODMC.pem ubuntu@3.71.201.217

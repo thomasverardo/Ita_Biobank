@@ -1,8 +1,10 @@
 import vcfpy
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from .models import body, file_description, sample_info, patient
 from .forms import VCFInsertForm, InsertPatientForm
 from datetime import datetime
+import csv
 
 def display_sequences(request):
     # insert_data(request)
@@ -18,16 +20,21 @@ def display_sequences(request):
                                                                 })
     # return render(request, 'sequences/table_sequences.html', {'table': Sample_table})
 
-# def submit_sequence(request):
-#     if request.method == 'POST':
-#         form = VCFSequenceForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             print("SUBMIT")
-#             return redirect('display_sequences')
-#     else:
-#         form = VCFSequenceForm()
-#     return render(request, 'sequences/submit_sequence.html', {'form': form})
+
+def export_csv(request):
+    # query = body.objects.select_related('file_description').all()
+    query = body.objects.all()
+    filename = "export_csv_biobank"
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{filename}.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([field.name for field in query.model._meta.fields])
+
+    for obj in query:
+        writer.writerow([getattr(obj, field.name) for field in query.model._meta.fields])
+
+    return response
 
 
 def add_patient(request):

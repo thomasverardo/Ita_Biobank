@@ -1,1 +1,5 @@
 ssh -i /home/thomas/Scaricati/ODMC.pem ubuntu@3.71.201.217
+
+python3 manage.py runserver 0:8000 --> to run
+
+First also change settings.py with the dns

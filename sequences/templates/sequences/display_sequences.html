@@ -44,6 +44,31 @@
     <button type="submit">Insert VCF</button>
   </form>
 
+  <a href="{% url 'add_person' %}" class="btn btn-primary">Add person</a>
+  <a href="{% url 'add_phenotype' %}" class="btn btn-primary">Add phenotype</a>
+
+
+
+
+  <!-- Pheno -->
+
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Patient_id</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pat in phenotype %}
+      <tr>
+        <td>{{ pat.person_id }}</td>
+        <td>{{ pat.phenotype_description }}</td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
   <!-- Patients -->
 
@@ -53,7 +78,6 @@
         <th>Patient_id</th>
         <th>Age</th>
         <th>Gender</th>
-        <th>Other</th>
       </tr>
     </thead>
     <tbody>
@@ -62,7 +86,6 @@
         <td>{{ pat.person_id }}</td>
         <td>{{ pat.age }}</td>
         <td>{{ pat.gender }}</td>
-        <td>{{ pat.format_other }}</td>
 
       </tr>
       {% endfor %}
@@ -102,6 +125,7 @@
   <table class="table table-striped table-hover">
       <thead>
         <tr>
+          <th>id_body</th>
           <th>CHROM</th>
           <th>POS</th>
           <th>ID</th>
@@ -110,12 +134,14 @@
           <th>QUAL</th>
           <th>FILTER</th>
           <th>INFO</th>
+          <th>file</th>
           
         </tr>
       </thead>
       <tbody>
         {% for sequence in sequences %}
         <tr>
+          <td>{{ sequence.id }}</td>
           <td>{{ sequence.chrom }}</td>
           <td>{{ sequence.pos }}</td>
           <td>{{ sequence.id1 }}</td>
@@ -124,6 +150,7 @@
           <td>{{ sequence.qual }}</td>
           <td>{{ sequence.filter }}</td>
           <td>{{ sequence.info }}</td>
+          <td>{{ sequence.file_description }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -132,11 +159,11 @@
 
 
 
-
+    <!-- sample info -->
   <table class="table table-striped table-hover">
     <thead>
       <tr>
-        <th>File_id</th>
+        <th>body_id</th>
         <th>person_id</th>
         <th>GT</th>
         <th>GQ </th>
@@ -146,7 +173,8 @@
     <tbody>
       {% for sample in sample_info %}
       <tr>
-        <td>{{ sample.file_id1 }}</td>
+        <!-- <td>{{ sample.file_id1 }}</td> -->
+        <td>{{ sample.body_id }}</td>
         <td>{{ sample.person_id }}</td>
         <td>{{ sample.format_gt }}</td>
         <td>{{ sample.format_gq }}</td>

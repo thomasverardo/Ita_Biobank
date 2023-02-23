@@ -1,8 +1,8 @@
 import vcfpy
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import body, file_description, sample_info, patient
-from .forms import VCFInsertForm, InsertPatientForm
+from .models import body, file_description, sample_info, patient, phenotype
+from .forms import VCFInsertForm, InsertPatientForm, InsertPhenotypeForm
 from datetime import datetime
 import csv
 
@@ -12,11 +12,12 @@ def display_sequences(request):
     file_description_ = file_description.objects.all()
     sample_info_ = sample_info.objects.all()
     patients = patient.objects.all()
+    pheno = phenotype.objects.all()
     return render(request, 'sequences/display_sequences.html', {'sequences': sequences, 
                                                                 'file_description': file_description_, 
                                                                 'sample_info': sample_info_,
-                                                                'patients': patients
-                                                                
+                                                                'patients': patients,
+                                                                'phenotype': pheno
                                                                 })
     # return render(request, 'sequences/table_sequences.html', {'table': Sample_table})
 
@@ -44,15 +45,29 @@ def add_patient(request):
             person_id = form.cleaned_data['person_id']
             age = form.cleaned_data['age']
             gender = form.cleaned_data['gender']
-            format_other = form.cleaned_data['format_other']
 
             # Insert data into the person table
-            person = patient(person_id=person_id, age=age, gender=gender, format_other=format_other)
+            person = patient(person_id=person_id, age=age, gender=gender)
             person.save()
             return redirect('/sequences/')
     else:
         form = InsertPatientForm()
     return render(request, 'sequences/add_patient.html', {'form': form})
+
+def add_phenotype(request):
+    if request.method == 'POST':
+        form = InsertPhenotypeForm(request.POST)
+        if form.is_valid():
+            person_id = form.cleaned_data['person_id']
+            phenotype_description = form.cleaned_data['phenotype_description']
+
+            # Insert data into the phenotype table
+            phenotype_new = phenotype(person_id=person_id, phenotype_description=phenotype_description)
+            phenotype_new.save()
+            return redirect('/sequences/')
+    else:
+        form = InsertPhenotypeForm()
+    return render(request, 'sequences/add_phenotype.html', {'form': form})
 
 
 
@@ -126,10 +141,11 @@ def insert_data_from_file(request, vfc_file):
             new_sample_info = sample_info(
                 file_id1 = file_id_new,
                 # person_id = person.sample,
+                body_id = new_sequence,
                 format_gt = gt,
                 format_gq = gq,
-                all_other = other,
-                file_description = new_file_description
+                all_other = other
+                # file_description = new_file_description
             )
 
             new_sample_info.save()

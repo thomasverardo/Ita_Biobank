@@ -39,7 +39,11 @@ class sample_info(models.Model):
     format_gq = models.CharField(max_length=5)
     all_other = models.CharField(max_length=100)
 
-    file_description = models.ForeignKey(file_description, on_delete=models.RESTRICT)
+    body_id = models.ForeignKey(body, on_delete=models.RESTRICT, default=None)
+
+
+
+    # file_description = models.ForeignKey(file_description, on_delete=models.RESTRICT)
 
 
 GENDER_CHOICES = (
@@ -49,8 +53,13 @@ GENDER_CHOICES = (
 )
 
 class patient(models.Model):
-    person_id = models.CharField(max_length=50, primary_key=True)
+    person_id = models.CharField(max_length=100, primary_key=True)
     age = models.IntegerField()
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    format_other = models.CharField(max_length=100)
+
+class phenotype(models.Model):
+    phenotype_description = models.CharField(max_length=255, default=None)
+    person_id = models.ForeignKey(patient, on_delete=models.RESTRICT)
+
+
 

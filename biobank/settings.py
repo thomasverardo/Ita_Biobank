@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_9%x)#&^_q6glns0h+be=dq7rzyk-dlw3o=n1*9aatki-33^k-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "ec2-18-193-70-11.eu-central-1.compute.amazonaws.com"]
 
@@ -52,6 +52,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'biobank.urls'
+
+LOGIN_REDIRECT_URL = '/sequences'
 
 # TEMPLATES = [
 #     {

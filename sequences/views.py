@@ -84,7 +84,7 @@ def export_csv(request):
 
     return response
 
-
+@login_required
 def add_patient(request):
     if request.method == 'POST':
         form = InsertPatientForm(request.POST)
@@ -101,6 +101,7 @@ def add_patient(request):
         form = InsertPatientForm()
     return render(request, 'sequences/add_patient.html', {'form': form})
 
+@login_required
 def add_phenotype(request):
     if request.method == 'POST':
         form = InsertPhenotypeForm(request.POST)

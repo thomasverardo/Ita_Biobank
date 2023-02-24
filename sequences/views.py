@@ -1,7 +1,7 @@
 import vcfpy
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import body, file_description, sample_info, patient, phenotype
+from .models import body, file_description, sample_info, patient, phenotype, info, filter, format
 from .forms import VCFInsertForm, InsertPatientForm, InsertPhenotypeForm
 from datetime import datetime
 import csv
@@ -68,6 +68,18 @@ def display_sequences(request):
                                                                 })
     # return render(request, 'sequences/table_sequences.html', {'table': Sample_table})
 
+
+@login_required
+def metadata(request):
+    # insert_data(request)
+    _info = info.objects.all()
+    _filter = filter.objects.all()
+    _format = format.objects.all()
+
+    return render(request, 'sequences/metadata.html', {'info': _info, 
+                                                                'filter': _filter, 
+                                                                'format': _format
+                                                                })
 
 def export_csv(request):
     # query = body.objects.select_related('file_description').all()

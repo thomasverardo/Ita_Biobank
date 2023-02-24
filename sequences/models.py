@@ -62,4 +62,18 @@ class phenotype(models.Model):
     person_id = models.ForeignKey(patient, on_delete=models.RESTRICT)
 
 
+class info(models.Model):
+    id = models.CharField(max_length=20, primary_key=True)
+    number = models.CharField(max_length=3)
+    type = models.CharField(max_length=20)
+    description = models.CharField(max_length=255)
 
+class filter(models.Model):
+    id = models.CharField(max_length=20, primary_key=True)
+    description = models.CharField(max_length=255)
+
+class format(models.Model):
+    id = models.CharField(max_length=20, primary_key=True)
+    number = models.CharField(max_length=3)
+    type = models.CharField(max_length=20)
+    description = models.CharField(max_length=255)

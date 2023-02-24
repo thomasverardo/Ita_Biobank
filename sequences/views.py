@@ -6,20 +6,51 @@ from .forms import VCFInsertForm, InsertPatientForm, InsertPhenotypeForm
 from datetime import datetime
 import csv
 from django.contrib.auth.views import LoginView
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
 from django.contrib import messages
+from django.urls import reverse_lazy
 
 
 class AuthenticationLogin(LoginView):
-    redirect_authenticated_user = True
+    redirect_authenticated_user = False
+    template_name = 'sequences/login.html'
+    redirect_field_name = 'next'
+
     
     def get_success_url(self):
-        return reverse_lazy('tasks') 
+        # return reverse_lazy('tasks') 
+        return "/sequences/"
     
     def form_invalid(self, form):
         messages.error(self.request,'Invalid username or password')
         return self.render_to_response(self.get_context_data(form=form))
+    
+# def login_request(request):
+# 	if request.method == "POST":
+# 		form = AuthenticationForm(request, data=request.POST)
+# 		if form.is_valid():
+# 			username = form.cleaned_data.get('username')
+# 			password = form.cleaned_data.get('password')
+# 			user = authenticate(username=username, password=password)
+# 			if user is not None:
+# 				login(request, user)
+# 				messages.info(request, f"You are now logged in as {username}.")
+# 				return redirect("main:homepage")
+# 			else:
+# 				messages.error(request,"Invalid username or password.")
+# 		else:
+# 			messages.error(request,"Invalid username or password.")
+# 	form = AuthenticationForm()
+# 	return render(request=request, template_name="main/login.html", context={"login_form":form})
+
+    
+
+
+def logout_view(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.") 
+    return redirect('/sequences/')
 
 @login_required
 def display_sequences(request):

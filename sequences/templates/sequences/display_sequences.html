@@ -19,6 +19,12 @@
     Anonymous
 {% endif %}
 
+<form action="{% url 'logout' %}" method="post" >
+  {% csrf_token %}
+  <button type="submit" class="btn btn-outline-danger">Logout</button>
+</form>
+
+
 <!-- 
 {% for sequence in sequences %}
     <p>{{ sequence.id1 }}: {{ sequence.chrom }}, {{ sequence.pos }}, {{ sequence.id }}, 

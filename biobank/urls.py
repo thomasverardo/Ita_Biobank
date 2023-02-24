@@ -1,5 +1,5 @@
 from django.urls import path
-from sequences.views import display_sequences, insert_vcf_file, add_patient, export_csv, add_phenotype, AuthenticationLogin
+from sequences.views import display_sequences, insert_vcf_file, add_patient, export_csv, add_phenotype, AuthenticationLogin, logout_view
 from django.contrib import admin
 
 urlpatterns = [
@@ -10,4 +10,6 @@ urlpatterns = [
     path('add_phenotype/', add_phenotype, name='add_phenotype'),
     path('export-csv/', export_csv, name='export_csv'),
     path('login/', AuthenticationLogin.as_view(), name='login'),
+    # path('logout/', logout_view.as_view(), name='logout')
+    path("logout", logout_view, name= "logout"),
 ]

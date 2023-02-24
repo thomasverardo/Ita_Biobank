@@ -200,7 +200,7 @@ def insert_data_from_file(request, vfc_file):
 
             new_sample_info = sample_info(
                 file_id1 = file_id_new,
-                # person_id = person.sample,
+                person_id = person.sample,
                 body_id = new_sequence,
                 format_gt = gt,
                 format_gq = gq,

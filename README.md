@@ -1,6 +1,9 @@
 
 # Ita biobank
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7681590.svg)](https://doi.org/10.5281/zenodo.7681590)
+
+
 In this repository it's shown the implementation of a national biobank for storing gene sequence variations in a standardized way (it stores only data from VCF format).
 
 Biobanks are defined as collections of biological samples and associated information organised in a systematic way.

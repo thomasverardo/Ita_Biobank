@@ -11,6 +11,5 @@ urlpatterns = [
     path('export-csv/', export_csv, name='export_csv'),
     path('metadata/', metadata, name='metadata'),
     path('login/', AuthenticationLogin.as_view(), name='login'),
-    # path('logout/', logout_view.as_view(), name='logout')
     path("logout", logout_view, name= "logout"),
 ]

@@ -4,7 +4,7 @@ from django.db import models
 class file_description(models.Model):
     file_id = models.CharField(max_length=100, primary_key=True)
     file_format = models.CharField(max_length=50)
-    file_data = models.CharField(max_length=20)
+    file_data = models.CharField(max_length=200)
     source = models.CharField(max_length=255)
     reference = models.CharField(max_length=255)
     contig = models.CharField(max_length=255)
@@ -14,14 +14,12 @@ class file_description(models.Model):
 
 class body(models.Model):
     file_id1 = models.CharField(max_length=50)
-    
     chrom = models.CharField(max_length=4)
     pos = models.IntegerField()
     id1 = models.CharField(max_length=30)
-    ref = models.CharField(max_length=200) #Only 20 or more??? Or less?
+    ref = models.CharField(max_length=200)
     alt = models.CharField(max_length=200)
-    # qual = models.IntegerField(max_length=10)
-    qual = models.CharField(max_length=100)
+    qual = models.CharField(max_length=100, null=False)
     filter = models.CharField(max_length=100)
     info = models.CharField(max_length=255)
 
@@ -34,16 +32,11 @@ class body(models.Model):
 class sample_info(models.Model):
     file_id1 = models.CharField(max_length=50)
     person_id = models.CharField(max_length=50, default=None)
-
     format_gt = models.CharField(max_length=5)
     format_gq = models.CharField(max_length=5)
     all_other = models.CharField(max_length=100)
 
     body_id = models.ForeignKey(body, on_delete=models.RESTRICT, default=None)
-
-
-
-    # file_description = models.ForeignKey(file_description, on_delete=models.RESTRICT)
 
 
 GENDER_CHOICES = (

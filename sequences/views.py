@@ -9,7 +9,6 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.urls import reverse_lazy
 
 
 class AuthenticationLogin(LoginView):
@@ -19,33 +18,11 @@ class AuthenticationLogin(LoginView):
 
     
     def get_success_url(self):
-        # return reverse_lazy('tasks') 
         return "/sequences/"
     
     def form_invalid(self, form):
         messages.error(self.request,'Invalid username or password')
         return self.render_to_response(self.get_context_data(form=form))
-    
-# def login_request(request):
-# 	if request.method == "POST":
-# 		form = AuthenticationForm(request, data=request.POST)
-# 		if form.is_valid():
-# 			username = form.cleaned_data.get('username')
-# 			password = form.cleaned_data.get('password')
-# 			user = authenticate(username=username, password=password)
-# 			if user is not None:
-# 				login(request, user)
-# 				messages.info(request, f"You are now logged in as {username}.")
-# 				return redirect("main:homepage")
-# 			else:
-# 				messages.error(request,"Invalid username or password.")
-# 		else:
-# 			messages.error(request,"Invalid username or password.")
-# 	form = AuthenticationForm()
-# 	return render(request=request, template_name="main/login.html", context={"login_form":form})
-
-    
-
 
 def logout_view(request):
     logout(request)
@@ -66,7 +43,6 @@ def display_sequences(request):
                                                                 'patients': patients,
                                                                 'phenotype': pheno
                                                                 })
-    # return render(request, 'sequences/table_sequences.html', {'table': Sample_table})
 
 
 @login_required
@@ -77,9 +53,9 @@ def metadata(request):
     _format = format.objects.all()
 
     return render(request, 'sequences/metadata.html', {'info': _info, 
-                                                                'filter': _filter, 
-                                                                'format': _format
-                                                                })
+                                                        'filter': _filter, 
+                                                        'format': _format
+                                                        })
 
 def export_csv(request):
     # query = body.objects.select_related('file_description').all()
@@ -137,6 +113,7 @@ def insert_vcf_file(request):
         form = VCFInsertForm(request.POST, request.FILES)
         if form.is_valid():
             vcf_file = form.cleaned_data['vcf_file']
+
             # Perform logic to insert VCF file into database
             insert_data_from_file(request, vcf_file)
             # ...
@@ -188,7 +165,6 @@ def insert_data_from_file(request, vfc_file):
 
 
         for person in record.calls:
-            # excluded = {k: person[k] for k in set(list(person.sample)) - set(['GT', 'GQ'])}
             
             for key, value in person.data.items():
                 if key == 'GT':
